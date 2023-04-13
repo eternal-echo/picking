@@ -110,7 +110,7 @@ class NozzleController:
         # Turn all valves off
         return self._write_multiple_coils(0, [False] * self.nozzles)
 
-    def open_valve(self, valve_id):
+    def open_valve(self, valve_id) -> bool:
         """Opens the specified valve.
         :param valve_id: The ID of the valve to open.
         :return: True if the valve was opened successfully.
