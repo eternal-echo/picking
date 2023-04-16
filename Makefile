@@ -12,3 +12,11 @@ test-unit:
 
 test-inte:
 	pytest -m integration
+
+test-yolo:
+	python detect\yolov5\detect.py --weights detect\yolov5\best.pt --img 640 --conf 0.25 --source test\data\phone.mp4 --save-txt
+
+sample-bg:
+	python samples\bg_sub.py --input test\data\hik-full2.mp4 --save test\results\bg.mp4
+
+# $env:PYTHONPATH += ';'+(pwd)
