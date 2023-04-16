@@ -19,4 +19,6 @@ test-yolo:
 sample-bg:
 	python samples\bg_sub.py --input test\data\hik-full2.mp4 --save test\results\bg.mp4
 
+sample-mark:
+	python samples\mark.py --input test\data\hik-full2.mp4
 # $env:PYTHONPATH += ';'+(pwd)
