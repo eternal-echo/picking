@@ -28,9 +28,9 @@ while True:
 # 开始标注传送带
 print("Marking conveyor")
 ret, frame = capture.read()
-conveyor_frame, conveyor_lines = system_mark.mark_conveyor(frame)
-cv2.imshow("Conveyor", conveyor_frame)
-print(conveyor_lines)
+conveyor_frame, conveyor_rect = system_mark.mark_conveyor(frame)
+cv2.imshow("Conveyor Frame", conveyor_frame)
+print("Conveyor:", conveyor_rect)
 
 # 等待用户空格开始标注
 print("Press space to start marking")
