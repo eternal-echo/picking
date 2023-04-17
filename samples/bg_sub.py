@@ -7,13 +7,22 @@ parser = argparse.ArgumentParser(description='This program shows how to use back
                                               OpenCV. You can process both videos and images.')
 parser.add_argument('--input', type=str, help='Path to a video or a sequence of image.', default='vtest.avi')
 parser.add_argument('--algo', type=str, help='Background subtraction method (KNN, MOG2).', default='MOG2')
+parser.add_argument('--history', type=int, help='Length of the history.', default=500)
+parser.add_argument('--var-threshold', type=float, help='Threshold on the squared Mahalanobis distance between \
+                    the pixel and the model to decide whether a pixel is well described by the background model. \
+                    This parameter does not affect the background update.', default=16)
 parser.add_argument('--no-shadows', dest='shadows', action='store_false', help='Highlight shadows in the foreground mask.')
+parser.set_defaults(shadows=True)
 parser.add_argument('--save', type=str, help='Path to save the output video.', default=None)
 args = parser.parse_args()
 
 ## [create]
-#create Background Subtractor objects
-back_model = BackgroundModel(algo=args.algo, history=500, varThreshold=16, detectShadows=args.shadows)
+# create Background Subtractor objects
+print('Using ' + args.algo + ' algorithm')
+print('History: ' + str(args.history))
+print('VarThreshold: ' + str(args.var_threshold))
+print('DetectShadows: ' + str(args.shadows))
+back_model = BackgroundModel(algo=args.algo, history=args.history, varThreshold=args.var_threshold, detectShadows=args.shadows)
 ## [create]
 
 ## [capture]
@@ -48,7 +57,9 @@ while True:
 
     ## [show]
     #show the current frame and the fg masks
+    cv.namedWindow('Frame', cv.WINDOW_NORMAL)
     cv.imshow('Frame', frame)
+    cv.namedWindow('FG Mask', cv.WINDOW_NORMAL)
     cv.imshow('FG Mask', fgMask)
     ## [show]
 
