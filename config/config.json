@@ -1,0 +1,16 @@
+{
+    "belt": {
+        "x": 728,
+        "y": 53,
+        "width": 586,
+        "height": 963
+    },
+    "max_part": {
+        "width": 221,
+        "height": 298
+    },
+    "min_part": {
+        "width": 44,
+        "height": 99
+    }
+}

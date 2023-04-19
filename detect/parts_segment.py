@@ -1,5 +1,5 @@
 import cv2
-
+import numpy as np
 # 背景建模
 class BackgroundModel:
     def __init__(self, algo='MOG2', history=500, varThreshold=16, detectShadows=True):
@@ -11,3 +11,38 @@ class BackgroundModel:
     def apply(self, frame):
         fg_mask = self.bg_subtractor.apply(frame)
         return fg_mask
+    
+# 连通域分析
+class ConnectedComponents:
+    def __init__(self, min_area=100, max_area=10000):
+        self.min_area = min_area
+        self.max_area = max_area
+
+    # 基于腐蚀的形态学重建
+    def pre_process(self, img, kernel_size=(9, 9)):
+        # 中值滤波
+        img = cv2.medianBlur(img, 5)
+        # 开操作
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, kernel_size)
+        opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+
+        return opening
+
+    def process(self, img):
+        # 连通域分析
+        num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(img)
+        # 获取连通域面积
+        areas = stats[:, 4]
+        # 对连通域按面积从小到大排序
+        sorted_areas_indices = np.argsort(areas)
+        # 选择面积在 self.min_area 到 self.max_area 像素之间的连通域
+        selected_areas_indices = sorted_areas_indices[(areas[sorted_areas_indices] > self.min_area) & (areas[sorted_areas_indices] < self.max_area)]
+        
+        num_labels = len(selected_areas_indices)
+        stats = stats[selected_areas_indices]
+        centroids = centroids[selected_areas_indices]
+
+        assert num_labels == len(stats) == len(centroids)
+
+        # 返回图像和连通域标签
+        return num_labels, labels, stats, centroids

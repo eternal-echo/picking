@@ -28,7 +28,7 @@ while True:
 # 开始标注传送带
 print("Marking conveyor")
 ret, frame = capture.read()
-conveyor_frame, conveyor_rect = system_mark.mark_conveyor(frame)
+conveyor_frame, conveyor_rect = system_mark.mark_belt(frame)
 cv2.imshow("Conveyor Frame", conveyor_frame)
 print("Conveyor:", conveyor_rect)
 
@@ -64,6 +64,6 @@ while True:
 # 开始标注最小零件
 print("Marking the smallest part")
 ret, frame = capture.read()
-min_part_frame, min_part_rect = system_mark.mark_part(frame)
+min_part_frame, bbox_min = system_mark.mark_part(frame)
 cv2.imshow("Marked Frames", min_part_frame)
-print("Largest part:", min_part_rect)
+print("Largest part:", bbox_min)
