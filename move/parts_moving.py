@@ -21,6 +21,7 @@ class PartsMoving:
     def move(self, part_id, pos) -> bool:
         pass
 
+# TODO: 和sys中的数据结构冲突，后续需要去除
 @dataclass
 class Point:
     x: float

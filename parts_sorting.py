@@ -1,27 +1,13 @@
 import cv2
 import numpy as np
+from collections import deque
 import logging
 import os
 import json
-from move.parts_moving import NozzleMoving, NozzleSetting, PartInfo, Point
+from dataclasses import dataclass
+# from move.parts_moving import NozzleMoving, NozzleSetting, PartInfo, Point
 from detect.parts_segment import BackgroundModel, ConnectedComponents
-
-# def refineSegments(img, mask):
-#     # 腐蚀
-#     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (50, 50))
-#     eroded = cv2.erode(mask, kernel, iterations=1)
-#     # 连通域分析
-#     num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(eroded, connectivity=8, ltype=cv2.CV_32S)
-#     temp = np.zeros_like(mask)
-#
-#     # contours, _ = cv2.findContours(temp, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-#     dst = img.copy()
-#     # if not contours:
-#     #     return dst, temp
-#     # largestComp = max(contours, key=cv2.contourArea)
-#     # color = (0, 0, 255)
-#     # cv2.drawContours(dst, [largestComp], -1, color)
-#     return dst, temp
+from detect.parts_tracker import Tracker, Point, Rectangle, TargetInfo, TargetTrack
 
 class PartsSortingSystem:
     def __init__(self, camera: str, config_file, results_dir = 'run'):
@@ -105,9 +91,38 @@ class PartsSortingSystem:
         self.back_model = BackgroundModel(algo='MOG2', history=500, varThreshold=50, detectShadows=False)
         # 连通域分析
         self.connected_components = ConnectedComponents(min_area=self.size_min[0]*self.size_min[1], max_area=self.size_max[0]*self.size_max[1])
-         # 创建光流对象
-        self.lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-        self.prev_frame = None
+        #  # 创建光流对象
+        # self.lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+        # self.prev_frame = None
+
+        # 卡尔曼滤波
+        # self.kalman = cv2.KalmanFilter(dynamParams=4, measureParams=2)
+        # # 时间步长根据帧率调整
+        # dt = 1.0 / self.camera.get(cv2.CAP_PROP_FPS)
+        # # 状态转移矩阵 F. input
+        # self.kalman.transitionMatrix = np.array([[1, 0, dt, 0], 
+        #                                          [0, 1, 0, dt], 
+        #                                          [0, 0, 1, 0], 
+        #                                          [0, 0, 0, 1]], dtype=np.float32)
+        # # 测量矩阵 H. input
+        # self.kalman.measurementMatrix = np.array([[1, 0, 0, 0],
+        #                                             [0, 1, 0, 0]], dtype=np.float32)
+        # # 过程噪声协方差矩阵 Q. input
+        # self.kalman.processNoiseCov = np.array([[0.25*dt**4, 0, 0.5*dt**3, 0],
+        #                                         [0, 0.25*dt**4, 0, 0.5*dt**3],
+        #                                         [0.5*dt**3, 0, dt**2, 0],
+        #                                         [0, 0.5*dt**3, 0, dt**2]], dtype=np.float32)
+        # # 测量噪声协方差矩阵 R. input
+        # self.kalman.measurementNoiseCov = np.array([[1, 0],
+        #                                             [0, 1]], dtype=np.float32)
+        # # 误差协方差矩阵 P._k|k  KF state var
+        # self.kalman.errorCovPost = np.eye(4) * 1000
+        # # 初始化状态向量 x^_k|k  KF state var
+        # self.kalman.statePost = np.array([[self.bbox_belt[0] + self.bbox_belt[2] / 2], [self.bbox_belt[1]], [0], [0]], dtype=np.float32)
+
+        # 候选目标列表，节点类型为TargetTrack
+        self.candidates = list()
+
 
     def run(self):
         # 如果指定了保存路径，则创建VideoWriter对象保存连通域分析后的框选结果
@@ -117,12 +132,14 @@ class PartsSortingSystem:
 
         while True:
             ret, frame = self.camera.read()
+            frame_id = self.camera.get(cv2.CAP_PROP_POS_FRAMES)
             if frame is None:
                 break
 
             # 选择传送带检测范围
             belt = frame[int(self.bbox_belt[1]):int(self.bbox_belt[1] + self.bbox_belt[3]), int(self.bbox_belt[0]):int(self.bbox_belt[0] + self.bbox_belt[2])]
             selected_belt = belt.copy()
+            candidates_belt = belt.copy()
 
             # 中值滤波
             belt = cv2.medianBlur(belt, 5)
@@ -144,19 +161,46 @@ class PartsSortingSystem:
                 = self.connected_components.process(pre_proc)
             
             # 框选零件
-            if components_num_labels > 0:
-                self.components_stats = components_stats
-                self.components_centroids = components_centroids
+            # if components_num_labels > 0:
+            #     self.components_stats = components_stats
+            #     self.components_centroids = components_centroids
 
-                # 光流跟踪
-                # if self.prev_frame is not None:
-                #     # 计算光流
-                #     p0 = np.float32([c for c in self.components_centroids if c[0] > 0 and c[1] > 0]).reshape(-1, 1, 2)
-                #     p1, st, err = cv2.calcOpticalFlowPyrLK(self.prev_frame, selected_belt, p0, None, **self.lk_params)
-                #     # 选择跟踪成功的点
-                #     good_new = p1[st == 1]
-                #     good_old = p0[st == 1]
-                # self.prev_frame = selected_belt.copy()
+            # TODO: 对零件特征点使用光流法来跟踪，目前直接对连通域的坐标进行卡尔曼滤波
+            for candidate in self.candidates:
+                # 处理物体消失
+                if frame_id - candidate.last.timestamp > 10 or candidate.last.center.y < 30:
+                    self.candidates.remove(candidate)
+            # 遍历当前连通域，与候选目标队列的连通域进行匹配
+            for i in range(components_num_labels):
+                x, y, w, h, area = components_stats[i]
+                centroid = components_centroids[i]
+                cur_info = TargetInfo(Rectangle(x, y, w, h), Point(centroid[0], centroid[1]), area, frame_id)
+
+                # 判断是否属于已有物体
+                matched = False
+                for candidate in self.candidates:
+                    # 求中心点位移
+                    (dx, dy) = (centroid[0] - candidate.last.center.x, centroid[1] - candidate.last.center.y)
+                    # 计算两个矩形的重叠面积
+                    intersection = max(0, min(x+w, candidate.last.rect.x+candidate.last.rect.w) - max(x, candidate.last.rect.x)) * \
+                                   max(0, min(y+h, candidate.last.rect.y+candidate.last.rect.h) - max(y, candidate.last.rect.y))
+                    min_area = min(w*h, candidate.last.rect.w*candidate.last.rect.h)
+                    # 重叠比例
+                    overlap = intersection / min_area
+
+                    # 当矩形选框的重叠面积大于0.8时，认为是同一个物体
+                    if candidate.last.timestamp < frame_id and overlap > 0.8:
+                        matched = True
+                        # 当x坐标基本不变，y坐标在减小，并且面积基本不变时，认为跟踪成功
+                        if abs(dx) < 3 and dy < 0 and abs(candidate.last.area - area) < 0.1 * area:
+                            candidate.update(cur_info)
+                            break
+
+                # 如果不属于已有物体，则加入候选目标队列
+                if not matched:
+                    self.candidates.append(TargetTrack(cur_info))
+
+            # TODO: 卡尔曼滤波
             if self.is_show:
                 # 形态学处理的结果
                 cv2.namedWindow("Pre", cv2.WINDOW_NORMAL)
@@ -175,21 +219,23 @@ class PartsSortingSystem:
                             # cv2.putText(selected_belt, str(i), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
                             cv2.putText(selected_belt, str(i) + ": (" + str(x) + ", " + str(y) + ")", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
                             cv2.putText(selected_belt, str(w) + "x" + str(h) + ", " + str(area), (x, y + h), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                # # 显示光流跟踪结果
-                # if self.prev_frame is not None and good_new is not None and good_old is not None:
-                #     for i, (new, old) in enumerate(zip(good_new, good_old)):
-                #         a, b = new.ravel()
-                #         c, d = old.ravel()
-                #         cv2.line(selected_belt, (a, b), (c, d), (0, 255, 0), 2)
-                #         cv2.circle(selected_belt, (a, b), 5, (0, 0, 255), -1)
-                #         cv2.putText(selected_belt, str(i), (a, b), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
                 cv2.namedWindow("Selected Belt", cv2.WINDOW_NORMAL)
                 cv2.imshow("Selected Belt", selected_belt)
+
+                # 显示候选目标队列
+                for candidate in self.candidates:
+                    # 绘制矩形
+                    cv2.rectangle(candidates_belt, (candidate.last.rect.x, candidate.last.rect.y), (candidate.last.rect.x + candidate.last.rect.w, candidate.last.rect.y + candidate.last.rect.h), (0, 255, 0), 2)
+                    # 显示连通域编号，中心点坐标，面积，时间戳
+                    # cv2.putText(candidates_belt, str(candidate.last.timestamp) + ": (" + str(candidate.last.center.x) + ", " + str(candidate.last.center.y) + ")", (candidate.last.rect.x, candidate.last.rect.y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                    cv2.putText(candidates_belt, "{0}: ({1:.2f}, {2:.2f})".format(candidate.last.timestamp, candidate.last.center.x, candidate.last.center.y), (candidate.last.rect.x, candidate.last.rect.y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                cv2.namedWindow("Candidates Belt", cv2.WINDOW_NORMAL)
+                cv2.imshow("Candidates Belt", candidates_belt)
+
             if self.is_save:
                 self.belt_video.write(belt)
                 self.cc_video.write(selected_belt)
-                
-                
+    
 
             keyboard = cv2.waitKey(30)
             if keyboard == 'q' or keyboard == 27:
