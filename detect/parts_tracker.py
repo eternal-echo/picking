@@ -32,6 +32,12 @@ class TargetTrack:
         self.last = target
         self.tracker.correct(target.center)
 
+    def get_position(self):
+        return self.tracker.get_position()
+
+    def get_velocity(self):
+        return self.tracker.get_velocity()
+
 class Tracker:
     def __init__(self, center: Point):
         # 初始化 Kalman 滤波器
@@ -72,4 +78,10 @@ class Tracker:
         x = int(self.state[0][0])
         y = int(self.state[1][0])
         return (x, y)
+
+    def get_velocity(self):
+        # 获取速度
+        vx = int(self.state[2][0])
+        vy = int(self.state[3][0])
+        return (vx, vy)
 

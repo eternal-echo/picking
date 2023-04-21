@@ -129,6 +129,7 @@ class PartsSortingSystem:
         if self.is_save is not None:
             self.belt_video = cv2.VideoWriter(os.path.join(self.results_dir, 'belt.avi'), cv2.VideoWriter_fourcc(*'MJPG'), 30, (int(self.bbox_belt[2]), int(self.bbox_belt[3])))
             self.cc_video = cv2.VideoWriter(os.path.join(self.results_dir, 'cc.avi'), cv2.VideoWriter_fourcc(*'MJPG'), 30, (int(self.bbox_belt[2]), int(self.bbox_belt[3])))
+            self.track_video = cv2.VideoWriter(os.path.join(self.results_dir, 'track.avi'), cv2.VideoWriter_fourcc(*'MJPG'), 30, (int(self.bbox_belt[2]), int(self.bbox_belt[3])))
 
         while True:
             ret, frame = self.camera.read()
@@ -166,10 +167,6 @@ class PartsSortingSystem:
             #     self.components_centroids = components_centroids
 
             # TODO: 对零件特征点使用光流法来跟踪，目前直接对连通域的坐标进行卡尔曼滤波
-            for candidate in self.candidates:
-                # 处理物体消失
-                if frame_id - candidate.last.timestamp > 10 or candidate.last.center.y < 30:
-                    self.candidates.remove(candidate)
             # 遍历当前连通域，与候选目标队列的连通域进行匹配
             for i in range(components_num_labels):
                 x, y, w, h, area = components_stats[i]
@@ -192,13 +189,23 @@ class PartsSortingSystem:
                     if candidate.last.timestamp < frame_id and overlap > 0.8:
                         matched = True
                         # 当x坐标基本不变，y坐标在减小，并且面积基本不变时，认为跟踪成功
-                        if abs(dx) < 3 and dy < 0 and abs(candidate.last.area - area) < 0.1 * area:
+                        if abs(dx) < 3 and dy < 0:
                             candidate.update(cur_info)
                             break
 
-                # 如果不属于已有物体，则加入候选目标队列
-                if not matched:
+                # 如果不属于已有物体，并且在检测区域的下半部分，才加入候选目标队列
+                if (not matched) and y > belt.shape[0] / 3:
                     self.candidates.append(TargetTrack(cur_info))
+
+            # 过期检查
+            for candidate in self.candidates:
+                if candidate.last.rect.y < 30:
+                    self.__logger.info("目标已经离开传送带，目标信息：{}".format(candidate.last))
+                    self.candidates.remove(candidate)
+                    continue
+                # 处理过期物体
+                if frame_id - candidate.last.timestamp > 3:
+                    self.candidates.remove(candidate)
 
             # TODO: 卡尔曼滤波
             if self.is_show:
@@ -227,14 +234,19 @@ class PartsSortingSystem:
                     # 绘制矩形
                     cv2.rectangle(candidates_belt, (candidate.last.rect.x, candidate.last.rect.y), (candidate.last.rect.x + candidate.last.rect.w, candidate.last.rect.y + candidate.last.rect.h), (0, 255, 0), 2)
                     # 显示连通域编号，中心点坐标，面积，时间戳
-                    # cv2.putText(candidates_belt, str(candidate.last.timestamp) + ": (" + str(candidate.last.center.x) + ", " + str(candidate.last.center.y) + ")", (candidate.last.rect.x, candidate.last.rect.y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                    cv2.putText(candidates_belt, "{0}: ({1:.2f}, {2:.2f})".format(candidate.last.timestamp, candidate.last.center.x, candidate.last.center.y), (candidate.last.rect.x, candidate.last.rect.y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                    cv2.putText(candidates_belt, "{0}: ({1:.2f}, {2:.2f})".format(candidate.last.timestamp, candidate.last.center.x, candidate.last.center.y), (candidate.last.rect.x, candidate.last.rect.y), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 2)
+                    cv2.putText(candidates_belt, "{0}x{1}, {2}".format(candidate.last.rect.w, candidate.last.rect.h, candidate.last.area), (int(candidate.last.center.x), int(candidate.last.center.y)), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 2)
+                    # 显示坐标和速度
+                    c_x, c_y = candidate.get_position()
+                    v_x, v_y = candidate.get_velocity()
+                    cv2.putText(candidates_belt, "({0:.2f}, {1:.2f}), ({2:.2f}, {3:.2f})".format(c_x, c_y, v_x, v_y), (candidate.last.rect.x, candidate.last.rect.y + candidate.last.rect.h), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 2)
                 cv2.namedWindow("Candidates Belt", cv2.WINDOW_NORMAL)
                 cv2.imshow("Candidates Belt", candidates_belt)
 
             if self.is_save:
                 self.belt_video.write(belt)
                 self.cc_video.write(selected_belt)
+                self.track_video.write(candidates_belt)
     
 
             keyboard = cv2.waitKey(30)
