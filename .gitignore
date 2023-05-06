@@ -26,3 +26,5 @@ venv
 test/data
 test/results
 run/
+data/
+config/templates

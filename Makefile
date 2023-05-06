@@ -1,4 +1,6 @@
-.PHONY: run-server run-client
+# .PHONY: run-server run-client
+PYTHONPATH := $(shell pwd)
+export PYTHONPATH
 
 run-server:
 	# python -u server_simulator.py --port "COM1"

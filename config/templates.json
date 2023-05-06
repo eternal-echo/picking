@@ -1,0 +1,1770 @@
+{
+    "0": {
+        "name": "0",
+        "binary": {
+            "path": "config\\templates\\0_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\0\\0_000.jpg",
+            "img_path": "config\\templates\\0_positive.jpg",
+            "bbox": [
+                1153,
+                485,
+                279,
+                264
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\0\\0_101.jpg",
+            "img_path": "config\\templates\\0_negative.jpg",
+            "bbox": [
+                1213,
+                704,
+                289,
+                273
+            ]
+        }
+    },
+    "1": {
+        "name": "1",
+        "binary": {
+            "path": "config\\templates\\1_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\1\\1_000.jpg",
+            "img_path": "config\\templates\\1_positive.jpg",
+            "bbox": [
+                1005,
+                458,
+                222,
+                284
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\1\\1_103.jpg",
+            "img_path": "config\\templates\\1_negative.jpg",
+            "bbox": [
+                202,
+                771,
+                312,
+                252
+            ]
+        }
+    },
+    "2": {
+        "name": "2",
+        "binary": {
+            "path": "config\\templates\\2_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\2\\2_000.jpg",
+            "img_path": "config\\templates\\2_positive.jpg",
+            "bbox": [
+                1308,
+                222,
+                296,
+                264
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\2\\2_110.jpg",
+            "img_path": "config\\templates\\2_negative.jpg",
+            "bbox": [
+                808,
+                218,
+                296,
+                291
+            ]
+        }
+    },
+    "3": {
+        "name": "3",
+        "binary": {
+            "path": "config\\templates\\3_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\3\\3_000.jpg",
+            "img_path": "config\\templates\\3_positive.jpg",
+            "bbox": [
+                1122,
+                311,
+                320,
+                315
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\3\\3_135.jpg",
+            "img_path": "config\\templates\\3_negative.jpg",
+            "bbox": [
+                1316,
+                361,
+                325,
+                321
+            ]
+        }
+    },
+    "4": {
+        "name": "4",
+        "binary": {
+            "path": "config\\templates\\4_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\4\\4_000.jpg",
+            "img_path": "config\\templates\\4_positive.jpg",
+            "bbox": [
+                845,
+                523,
+                314,
+                254
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\4\\4_101.jpg",
+            "img_path": "config\\templates\\4_negative.jpg",
+            "bbox": [
+                1088,
+                742,
+                302,
+                309
+            ]
+        }
+    },
+    "5": {
+        "name": "5",
+        "binary": {
+            "path": "config\\templates\\5_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\5\\5_000.jpg",
+            "img_path": "config\\templates\\5_positive.jpg",
+            "bbox": [
+                1240,
+                251,
+                300,
+                261
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\5\\5_106.jpg",
+            "img_path": "config\\templates\\5_negative.jpg",
+            "bbox": [
+                666,
+                202,
+                268,
+                345
+            ]
+        }
+    },
+    "6": {
+        "name": "6",
+        "binary": {
+            "path": "config\\templates\\6_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\6\\6_000.jpg",
+            "img_path": "config\\templates\\6_positive.jpg",
+            "bbox": [
+                1052,
+                344,
+                324,
+                248
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\6\\6_054.jpg",
+            "img_path": "config\\templates\\6_negative.jpg",
+            "bbox": [
+                1227,
+                635,
+                322,
+                255
+            ]
+        }
+    },
+    "7": {
+        "name": "7",
+        "binary": {
+            "path": "config\\templates\\7_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\7\\7_000.jpg",
+            "img_path": "config\\templates\\7_positive.jpg",
+            "bbox": [
+                1239,
+                410,
+                327,
+                255
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\7\\7_054.jpg",
+            "img_path": "config\\templates\\7_negative.jpg",
+            "bbox": [
+                1043,
+                242,
+                342,
+                246
+            ]
+        }
+    },
+    "8": {
+        "name": "8",
+        "binary": {
+            "path": "config\\templates\\8_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\8\\8_000.jpg",
+            "img_path": "config\\templates\\8_positive.jpg",
+            "bbox": [
+                1036,
+                563,
+                284,
+                296
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\8\\8_055.jpg",
+            "img_path": "config\\templates\\8_negative.jpg",
+            "bbox": [
+                1018,
+                244,
+                282,
+                297
+            ]
+        }
+    },
+    "9": {
+        "name": "9",
+        "binary": {
+            "path": "config\\templates\\9_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\9\\9_000.jpg",
+            "img_path": "config\\templates\\9_positive.jpg",
+            "bbox": [
+                1425,
+                259,
+                309,
+                255
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\9\\9_053.jpg",
+            "img_path": "config\\templates\\9_negative.jpg",
+            "bbox": [
+                1307,
+                262,
+                265,
+                303
+            ]
+        }
+    },
+    "10": {
+        "name": "A",
+        "binary": {
+            "path": "config\\templates\\10_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\A\\A_000.jpg",
+            "img_path": "config\\templates\\10_positive.jpg",
+            "bbox": [
+                1289,
+                194,
+                320,
+                363
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\A\\A_058.jpg",
+            "img_path": "config\\templates\\10_negative.jpg",
+            "bbox": [
+                1114,
+                249,
+                346,
+                360
+            ]
+        }
+    },
+    "11": {
+        "name": "aa",
+        "binary": {
+            "path": "config\\templates\\11_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\aa\\aa_000.jpg",
+            "img_path": "config\\templates\\11_positive.jpg",
+            "bbox": [
+                1173,
+                296,
+                238,
+                254
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\aa\\aa_059.jpg",
+            "img_path": "config\\templates\\11_negative.jpg",
+            "bbox": [
+                1341,
+                318,
+                260,
+                252
+            ]
+        }
+    },
+    "12": {
+        "name": "B",
+        "binary": {
+            "path": "config\\templates\\12_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\B\\B_000.jpg",
+            "img_path": "config\\templates\\12_positive.jpg",
+            "bbox": [
+                1028,
+                326,
+                326,
+                330
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\B\\B_052.jpg",
+            "img_path": "config\\templates\\12_negative.jpg",
+            "bbox": [
+                893,
+                303,
+                373,
+                347
+            ]
+        }
+    },
+    "13": {
+        "name": "bb",
+        "binary": {
+            "path": "config\\templates\\13_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\bb\\bb_000.jpg",
+            "img_path": "config\\templates\\13_positive.jpg",
+            "bbox": [
+                998,
+                389,
+                316,
+                285
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\bb\\bb_082.jpg",
+            "img_path": "config\\templates\\13_negative.jpg",
+            "bbox": [
+                1244,
+                323,
+                298,
+                353
+            ]
+        }
+    },
+    "14": {
+        "name": "C",
+        "binary": {
+            "path": "config\\templates\\14_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\C\\C_000.jpg",
+            "img_path": "config\\templates\\14_positive.jpg",
+            "bbox": [
+                912,
+                256,
+                320,
+                321
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\C\\C_055.jpg",
+            "img_path": "config\\templates\\14_negative.jpg",
+            "bbox": [
+                899,
+                250,
+                356,
+                333
+            ]
+        }
+    },
+    "15": {
+        "name": "cc",
+        "binary": {
+            "path": "config\\templates\\15_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\cc\\cc_000.jpg",
+            "img_path": "config\\templates\\15_positive.jpg",
+            "bbox": [
+                1236,
+                264,
+                259,
+                255
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\cc\\cc_051.jpg",
+            "img_path": "config\\templates\\15_negative.jpg",
+            "bbox": [
+                650,
+                414,
+                247,
+                240
+            ]
+        }
+    },
+    "16": {
+        "name": "D",
+        "binary": {
+            "path": "config\\templates\\16_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\D\\D_000.jpg",
+            "img_path": "config\\templates\\16_positive.jpg",
+            "bbox": [
+                868,
+                341,
+                326,
+                360
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\D\\D_055.jpg",
+            "img_path": "config\\templates\\16_negative.jpg",
+            "bbox": [
+                1029,
+                331,
+                333,
+                368
+            ]
+        }
+    },
+    "17": {
+        "name": "dd",
+        "binary": {
+            "path": "config\\templates\\17_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\dd\\dd_000.jpg",
+            "img_path": "config\\templates\\17_positive.jpg",
+            "bbox": [
+                1132,
+                329,
+                324,
+                297
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\dd\\dd_070.jpg",
+            "img_path": "config\\templates\\17_negative.jpg",
+            "bbox": [
+                243,
+                383,
+                312,
+                290
+            ]
+        }
+    },
+    "18": {
+        "name": "E",
+        "binary": {
+            "path": "config\\templates\\18_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\E\\E_001.jpg",
+            "img_path": "config\\templates\\18_positive.jpg",
+            "bbox": [
+                1088,
+                192,
+                393,
+                405
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\E\\E_056.jpg",
+            "img_path": "config\\templates\\18_negative.jpg",
+            "bbox": [
+                1138,
+                293,
+                344,
+                321
+            ]
+        }
+    },
+    "19": {
+        "name": "ee",
+        "binary": {
+            "path": "config\\templates\\19_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ee\\ee_000.jpg",
+            "img_path": "config\\templates\\19_positive.jpg",
+            "bbox": [
+                1264,
+                315,
+                256,
+                252
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ee\\ee_054.jpg",
+            "img_path": "config\\templates\\19_negative.jpg",
+            "bbox": [
+                1211,
+                268,
+                270,
+                267
+            ]
+        }
+    },
+    "20": {
+        "name": "F",
+        "binary": {
+            "path": "config\\templates\\20_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\F\\F_000.jpg",
+            "img_path": "config\\templates\\20_positive.jpg",
+            "bbox": [
+                1123,
+                315,
+                325,
+                285
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\F\\F_052.jpg",
+            "img_path": "config\\templates\\20_negative.jpg",
+            "bbox": [
+                1295,
+                280,
+                285,
+                341
+            ]
+        }
+    },
+    "21": {
+        "name": "ff",
+        "binary": {
+            "path": "config\\templates\\21_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ff\\ff_000.jpg",
+            "img_path": "config\\templates\\21_positive.jpg",
+            "bbox": [
+                1252,
+                374,
+                307,
+                194
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ff\\ff_052.jpg",
+            "img_path": "config\\templates\\21_negative.jpg",
+            "bbox": [
+                1149,
+                323,
+                331,
+                207
+            ]
+        }
+    },
+    "22": {
+        "name": "G",
+        "binary": {
+            "path": "config\\templates\\22_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\G\\G_000.jpg",
+            "img_path": "config\\templates\\22_positive.jpg",
+            "bbox": [
+                1185,
+                330,
+                324,
+                360
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\G\\G_055.jpg",
+            "img_path": "config\\templates\\22_negative.jpg",
+            "bbox": [
+                1091,
+                277,
+                363,
+                320
+            ]
+        }
+    },
+    "23": {
+        "name": "gg",
+        "binary": {
+            "path": "config\\templates\\23_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\gg\\gg_000.jpg",
+            "img_path": "config\\templates\\23_positive.jpg",
+            "bbox": [
+                1178,
+                322,
+                332,
+                263
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\gg\\gg_050.jpg",
+            "img_path": "config\\templates\\23_negative.jpg",
+            "bbox": [
+                1107,
+                254,
+                340,
+                261
+            ]
+        }
+    },
+    "24": {
+        "name": "H",
+        "binary": {
+            "path": "config\\templates\\24_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\H\\H_000.jpg",
+            "img_path": "config\\templates\\24_positive.jpg",
+            "bbox": [
+                1153,
+                244,
+                322,
+                357
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\H\\H_052.jpg",
+            "img_path": "config\\templates\\24_negative.jpg",
+            "bbox": [
+                959,
+                287,
+                315,
+                368
+            ]
+        }
+    },
+    "25": {
+        "name": "hh",
+        "binary": {
+            "path": "config\\templates\\25_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\hh\\hh_000.jpg",
+            "img_path": "config\\templates\\25_positive.jpg",
+            "bbox": [
+                1147,
+                269,
+                327,
+                309
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\hh\\hh_051.jpg",
+            "img_path": "config\\templates\\25_negative.jpg",
+            "bbox": [
+                1037,
+                241,
+                314,
+                357
+            ]
+        }
+    },
+    "26": {
+        "name": "I",
+        "binary": {
+            "path": "config\\templates\\26_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\I\\I_000.jpg",
+            "img_path": "config\\templates\\26_positive.jpg",
+            "bbox": [
+                1033,
+                347,
+                312,
+                186
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\I\\I_051.jpg",
+            "img_path": "config\\templates\\26_negative.jpg",
+            "bbox": [
+                1199,
+                236,
+                208,
+                318
+            ]
+        }
+    },
+    "27": {
+        "name": "ii",
+        "binary": {
+            "path": "config\\templates\\27_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ii\\ii_000.jpg",
+            "img_path": "config\\templates\\27_positive.jpg",
+            "bbox": [
+                1068,
+                365,
+                320,
+                162
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ii\\ii_055.jpg",
+            "img_path": "config\\templates\\27_negative.jpg",
+            "bbox": [
+                1028,
+                296,
+                313,
+                276
+            ]
+        }
+    },
+    "28": {
+        "name": "J",
+        "binary": {
+            "path": "config\\templates\\28_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\J\\J_000.jpg",
+            "img_path": "config\\templates\\28_positive.jpg",
+            "bbox": [
+                1063,
+                320,
+                314,
+                303
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\J\\J_052.jpg",
+            "img_path": "config\\templates\\28_negative.jpg",
+            "bbox": [
+                1004,
+                337,
+                403,
+                158
+            ]
+        }
+    },
+    "29": {
+        "name": "jj",
+        "binary": {
+            "path": "config\\templates\\29_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\jj\\jj_000.jpg",
+            "img_path": "config\\templates\\29_positive.jpg",
+            "bbox": [
+                1004,
+                337,
+                403,
+                159
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\jj\\jj_052.jpg",
+            "img_path": "config\\templates\\29_negative.jpg",
+            "bbox": [
+                1030,
+                302,
+                402,
+                156
+            ]
+        }
+    },
+    "30": {
+        "name": "K",
+        "binary": {
+            "path": "config\\templates\\30_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\K\\K_000.jpg",
+            "img_path": "config\\templates\\30_positive.jpg",
+            "bbox": [
+                1148,
+                297,
+                331,
+                360
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\K\\K_054.jpg",
+            "img_path": "config\\templates\\30_negative.jpg",
+            "bbox": [
+                1151,
+                255,
+                380,
+                317
+            ]
+        }
+    },
+    "31": {
+        "name": "kk",
+        "binary": {
+            "path": "config\\templates\\31_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\kk\\kk_000.jpg",
+            "img_path": "config\\templates\\31_positive.jpg",
+            "bbox": [
+                994,
+                331,
+                388,
+                357
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\kk\\kk_050.jpg",
+            "img_path": "config\\templates\\31_negative.jpg",
+            "bbox": [
+                1110,
+                254,
+                320,
+                378
+            ]
+        }
+    },
+    "32": {
+        "name": "L",
+        "binary": {
+            "path": "config\\templates\\32_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\L\\L_000.jpg",
+            "img_path": "config\\templates\\32_positive.jpg",
+            "bbox": [
+                1092,
+                356,
+                332,
+                297
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\L\\L_051.jpg",
+            "img_path": "config\\templates\\32_negative.jpg",
+            "bbox": [
+                1093,
+                342,
+                393,
+                347
+            ]
+        }
+    },
+    "33": {
+        "name": "ll",
+        "binary": {
+            "path": "config\\templates\\33_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ll\\ll_000.jpg",
+            "img_path": "config\\templates\\33_positive.jpg",
+            "bbox": [
+                1044,
+                360,
+                314,
+                168
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ll\\ll_052.jpg",
+            "img_path": "config\\templates\\33_negative.jpg",
+            "bbox": [
+                1019,
+                305,
+                302,
+                290
+            ]
+        }
+    },
+    "34": {
+        "name": "M",
+        "binary": {
+            "path": "config\\templates\\34_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\M\\M_000.jpg",
+            "img_path": "config\\templates\\34_positive.jpg",
+            "bbox": [
+                986,
+                194,
+                373,
+                452
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\M\\M_050.jpg",
+            "img_path": "config\\templates\\34_negative.jpg",
+            "bbox": [
+                1046,
+                280,
+                489,
+                477
+            ]
+        }
+    },
+    "35": {
+        "name": "mm",
+        "binary": {
+            "path": "config\\templates\\35_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\mm\\mm_000.jpg",
+            "img_path": "config\\templates\\35_positive.jpg",
+            "bbox": [
+                965,
+                232,
+                254,
+                402
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\mm\\mm_052.jpg",
+            "img_path": "config\\templates\\35_negative.jpg",
+            "bbox": [
+                960,
+                271,
+                306,
+                422
+            ]
+        }
+    },
+    "36": {
+        "name": "N",
+        "binary": {
+            "path": "config\\templates\\36_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\N\\N_000.jpg",
+            "img_path": "config\\templates\\36_positive.jpg",
+            "bbox": [
+                950,
+                272,
+                338,
+                386
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\N\\N_053.jpg",
+            "img_path": "config\\templates\\36_negative.jpg",
+            "bbox": [
+                939,
+                217,
+                340,
+                383
+            ]
+        }
+    },
+    "37": {
+        "name": "nn",
+        "binary": {
+            "path": "config\\templates\\37_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\nn\\nn_000.jpg",
+            "img_path": "config\\templates\\37_positive.jpg",
+            "bbox": [
+                938,
+                319,
+                266,
+                317
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\nn\\nn_049.jpg",
+            "img_path": "config\\templates\\37_negative.jpg",
+            "bbox": [
+                869,
+                297,
+                357,
+                342
+            ]
+        }
+    },
+    "38": {
+        "name": "O",
+        "binary": {
+            "path": "config\\templates\\38_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\O\\O_000.jpg",
+            "img_path": "config\\templates\\38_positive.jpg",
+            "bbox": [
+                836,
+                314,
+                324,
+                344
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\O\\O_054.jpg",
+            "img_path": "config\\templates\\38_negative.jpg",
+            "bbox": [
+                1213,
+                332,
+                346,
+                324
+            ]
+        }
+    },
+    "39": {
+        "name": "oo",
+        "binary": {
+            "path": "config\\templates\\39_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\oo\\oo_000.jpg",
+            "img_path": "config\\templates\\39_positive.jpg",
+            "bbox": [
+                1137,
+                327,
+                243,
+                276
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\oo\\oo_054.jpg",
+            "img_path": "config\\templates\\39_negative.jpg",
+            "bbox": [
+                1194,
+                344,
+                265,
+                258
+            ]
+        }
+    },
+    "40": {
+        "name": "P",
+        "binary": {
+            "path": "config\\templates\\40_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\P\\P_000.jpg",
+            "img_path": "config\\templates\\40_positive.jpg",
+            "bbox": [
+                967,
+                306,
+                322,
+                315
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\P\\P_051.jpg",
+            "img_path": "config\\templates\\40_negative.jpg",
+            "bbox": [
+                971,
+                258,
+                334,
+                338
+            ]
+        }
+    },
+    "41": {
+        "name": "pp",
+        "binary": {
+            "path": "config\\templates\\41_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\pp\\pp_000.jpg",
+            "img_path": "config\\templates\\41_positive.jpg",
+            "bbox": [
+                843,
+                315,
+                314,
+                312
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\pp\\pp_058.jpg",
+            "img_path": "config\\templates\\41_negative.jpg",
+            "bbox": [
+                1088,
+                299,
+                314,
+                303
+            ]
+        }
+    },
+    "42": {
+        "name": "Q",
+        "binary": {
+            "path": "config\\templates\\42_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\Q\\Q_000.jpg",
+            "img_path": "config\\templates\\42_positive.jpg",
+            "bbox": [
+                1026,
+                353,
+                387,
+                338
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\Q\\Q_052.jpg",
+            "img_path": "config\\templates\\42_negative.jpg",
+            "bbox": [
+                686,
+                234,
+                360,
+                390
+            ]
+        }
+    },
+    "43": {
+        "name": "qq",
+        "binary": {
+            "path": "config\\templates\\43_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\qq\\qq_000.jpg",
+            "img_path": "config\\templates\\43_positive.jpg",
+            "bbox": [
+                1197,
+                336,
+                330,
+                281
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\qq\\qq_063.jpg",
+            "img_path": "config\\templates\\43_negative.jpg",
+            "bbox": [
+                926,
+                314,
+                295,
+                341
+            ]
+        }
+    },
+    "44": {
+        "name": "R",
+        "binary": {
+            "path": "config\\templates\\44_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\R\\R_001.jpg",
+            "img_path": "config\\templates\\44_positive.jpg",
+            "bbox": [
+                1023,
+                246,
+                429,
+                378
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\R\\R_053.jpg",
+            "img_path": "config\\templates\\44_negative.jpg",
+            "bbox": [
+                1113,
+                187,
+                393,
+                450
+            ]
+        }
+    },
+    "45": {
+        "name": "rr",
+        "binary": {
+            "path": "config\\templates\\45_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\rr\\rr_000.jpg",
+            "img_path": "config\\templates\\45_positive.jpg",
+            "bbox": [
+                1261,
+                333,
+                267,
+                255
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\rr\\rr_057.jpg",
+            "img_path": "config\\templates\\45_negative.jpg",
+            "bbox": [
+                849,
+                275,
+                289,
+                252
+            ]
+        }
+    },
+    "46": {
+        "name": "S",
+        "binary": {
+            "path": "config\\templates\\46_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\S\\S_000.jpg",
+            "img_path": "config\\templates\\46_positive.jpg",
+            "bbox": [
+                903,
+                328,
+                330,
+                285
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\S\\S_054.jpg",
+            "img_path": "config\\templates\\46_negative.jpg",
+            "bbox": [
+                1162,
+                347,
+                333,
+                345
+            ]
+        }
+    },
+    "47": {
+        "name": "ss",
+        "binary": {
+            "path": "config\\templates\\47_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ss\\ss_000.jpg",
+            "img_path": "config\\templates\\47_positive.jpg",
+            "bbox": [
+                1011,
+                369,
+                268,
+                228
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ss\\ss_051.jpg",
+            "img_path": "config\\templates\\47_negative.jpg",
+            "bbox": [
+                1104,
+                278,
+                266,
+                252
+            ]
+        }
+    },
+    "48": {
+        "name": "T",
+        "binary": {
+            "path": "config\\templates\\48_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\T\\T_000.jpg",
+            "img_path": "config\\templates\\48_positive.jpg",
+            "bbox": [
+                1052,
+                289,
+                328,
+                315
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\T\\T_054.jpg",
+            "img_path": "config\\templates\\48_negative.jpg",
+            "bbox": [
+                986,
+                229,
+                320,
+                354
+            ]
+        }
+    },
+    "49": {
+        "name": "tt",
+        "binary": {
+            "path": "config\\templates\\49_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\tt\\tt_000.jpg",
+            "img_path": "config\\templates\\49_positive.jpg",
+            "bbox": [
+                1098,
+                351,
+                291,
+                192
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\tt\\tt_063.jpg",
+            "img_path": "config\\templates\\49_negative.jpg",
+            "bbox": [
+                1261,
+                291,
+                279,
+                273
+            ]
+        }
+    },
+    "50": {
+        "name": "U",
+        "binary": {
+            "path": "config\\templates\\50_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\U\\U_000.jpg",
+            "img_path": "config\\templates\\50_positive.jpg",
+            "bbox": [
+                1150,
+                193,
+                322,
+                341
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\U\\U_055.jpg",
+            "img_path": "config\\templates\\50_negative.jpg",
+            "bbox": [
+                897,
+                290,
+                327,
+                345
+            ]
+        }
+    },
+    "51": {
+        "name": "uu",
+        "binary": {
+            "path": "config\\templates\\51_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\uu\\uu_000.jpg",
+            "img_path": "config\\templates\\51_positive.jpg",
+            "bbox": [
+                1383,
+                284,
+                276,
+                294
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\uu\\uu_050.jpg",
+            "img_path": "config\\templates\\51_negative.jpg",
+            "bbox": [
+                1219,
+                259,
+                330,
+                371
+            ]
+        }
+    },
+    "52": {
+        "name": "V",
+        "binary": {
+            "path": "config\\templates\\52_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\V\\V_000.jpg",
+            "img_path": "config\\templates\\52_positive.jpg",
+            "bbox": [
+                1141,
+                318,
+                330,
+                341
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\V\\V_051.jpg",
+            "img_path": "config\\templates\\52_negative.jpg",
+            "bbox": [
+                1093,
+                258,
+                345,
+                345
+            ]
+        }
+    },
+    "53": {
+        "name": "vv",
+        "binary": {
+            "path": "config\\templates\\53_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\vv\\vv_000.jpg",
+            "img_path": "config\\templates\\53_positive.jpg",
+            "bbox": [
+                1214,
+                231,
+                273,
+                306
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\vv\\vv_060.jpg",
+            "img_path": "config\\templates\\53_negative.jpg",
+            "bbox": [
+                990,
+                234,
+                312,
+                270
+            ]
+        }
+    },
+    "54": {
+        "name": "W",
+        "binary": {
+            "path": "config\\templates\\54_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\W\\W_000.jpg",
+            "img_path": "config\\templates\\54_positive.jpg",
+            "bbox": [
+                1155,
+                166,
+                348,
+                444
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\W\\W_051.jpg",
+            "img_path": "config\\templates\\54_negative.jpg",
+            "bbox": [
+                1032,
+                255,
+                432,
+                420
+            ]
+        }
+    },
+    "55": {
+        "name": "ww",
+        "binary": {
+            "path": "config\\templates\\55_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\ww\\ww_000.jpg",
+            "img_path": "config\\templates\\55_positive.jpg",
+            "bbox": [
+                1094,
+                133,
+                260,
+                447
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\ww\\ww_051.jpg",
+            "img_path": "config\\templates\\55_negative.jpg",
+            "bbox": [
+                1204,
+                196,
+                265,
+                456
+            ]
+        }
+    },
+    "56": {
+        "name": "X",
+        "binary": {
+            "path": "config\\templates\\56_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\X\\X_000.jpg",
+            "img_path": "config\\templates\\56_positive.jpg",
+            "bbox": [
+                951,
+                287,
+                331,
+                357
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\X\\X_061.jpg",
+            "img_path": "config\\templates\\56_negative.jpg",
+            "bbox": [
+                1008,
+                190,
+                386,
+                396
+            ]
+        }
+    },
+    "57": {
+        "name": "xx",
+        "binary": {
+            "path": "config\\templates\\57_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\xx\\xx_000.jpg",
+            "img_path": "config\\templates\\57_positive.jpg",
+            "bbox": [
+                1187,
+                299,
+                261,
+                291
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\xx\\xx_061.jpg",
+            "img_path": "config\\templates\\57_negative.jpg",
+            "bbox": [
+                1205,
+                346,
+                296,
+                320
+            ]
+        }
+    },
+    "58": {
+        "name": "Y",
+        "binary": {
+            "path": "config\\templates\\58_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\Y\\Y_000.jpg",
+            "img_path": "config\\templates\\58_positive.jpg",
+            "bbox": [
+                1058,
+                198,
+                327,
+                324
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\Y\\Y_054.jpg",
+            "img_path": "config\\templates\\58_negative.jpg",
+            "bbox": [
+                768,
+                247,
+                333,
+                362
+            ]
+        }
+    },
+    "59": {
+        "name": "yy",
+        "binary": {
+            "path": "config\\templates\\59_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\yy\\yy_000.jpg",
+            "img_path": "config\\templates\\59_positive.jpg",
+            "bbox": [
+                1086,
+                203,
+                315,
+                288
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\yy\\yy_056.jpg",
+            "img_path": "config\\templates\\59_negative.jpg",
+            "bbox": [
+                813,
+                302,
+                352,
+                279
+            ]
+        }
+    },
+    "60": {
+        "name": "Z",
+        "binary": {
+            "path": "config\\templates\\60_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\Z\\Z_000.jpg",
+            "img_path": "config\\templates\\60_positive.jpg",
+            "bbox": [
+                1212,
+                250,
+                355,
+                350
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\Z\\Z_051.jpg",
+            "img_path": "config\\templates\\60_negative.jpg",
+            "bbox": [
+                1035,
+                173,
+                393,
+                299
+            ]
+        }
+    },
+    "61": {
+        "name": "zz",
+        "binary": {
+            "path": "config\\templates\\61_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\zz\\zz_000.jpg",
+            "img_path": "config\\templates\\61_positive.jpg",
+            "bbox": [
+                1108,
+                318,
+                249,
+                243
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\zz\\zz_052.jpg",
+            "img_path": "config\\templates\\61_negative.jpg",
+            "bbox": [
+                804,
+                365,
+                245,
+                245
+            ]
+        }
+    },
+    "62": {
+        "name": "+",
+        "binary": {
+            "path": "config\\templates\\62_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\+\\+_000.jpg",
+            "img_path": "config\\templates\\62_positive.jpg",
+            "bbox": [
+                1218,
+                334,
+                294,
+                281
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\+\\+_055.jpg",
+            "img_path": "config\\templates\\62_negative.jpg",
+            "bbox": [
+                1067,
+                362,
+                250,
+                258
+            ]
+        }
+    },
+    "63": {
+        "name": "-",
+        "binary": {
+            "path": "config\\templates\\63_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\-\\-_000.jpg",
+            "img_path": "config\\templates\\63_positive.jpg",
+            "bbox": [
+                1081,
+                344,
+                307,
+                128
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\-\\-_053.jpg",
+            "img_path": "config\\templates\\63_negative.jpg",
+            "bbox": [
+                997,
+                358,
+                206,
+                291
+            ]
+        }
+    },
+    "64": {
+        "name": "×",
+        "binary": {
+            "path": "config\\templates\\64_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\×\\×_000.jpg",
+            "img_path": "config\\templates\\64_positive.jpg",
+            "bbox": [
+                1057,
+                394,
+                290,
+                347
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\×\\×_052.jpg",
+            "img_path": "config\\templates\\64_negative.jpg",
+            "bbox": [
+                934,
+                170,
+                363,
+                387
+            ]
+        }
+    },
+    "65": {
+        "name": "÷",
+        "binary": {
+            "path": "config\\templates\\65_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\÷\\÷_000.jpg",
+            "img_path": "config\\templates\\65_positive.jpg",
+            "bbox": [
+                1142,
+                344,
+                288,
+                314
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\÷\\÷_050.jpg",
+            "img_path": "config\\templates\\65_negative.jpg",
+            "bbox": [
+                1218,
+                317,
+                325,
+                294
+            ]
+        }
+    },
+    "66": {
+        "name": "？",
+        "binary": {
+            "path": "config\\templates\\66_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\？\\？_000.jpg",
+            "img_path": "config\\templates\\66_positive.jpg",
+            "bbox": [
+                997,
+                368,
+                319,
+                194
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\？\\？_050.jpg",
+            "img_path": "config\\templates\\66_negative.jpg",
+            "bbox": [
+                924,
+                217,
+                223,
+                308
+            ]
+        }
+    },
+    "67": {
+        "name": "=",
+        "binary": {
+            "path": "config\\templates\\67_bin.jpg"
+        },
+        "positive": {
+            "src_path": "data\\dataset\\images\\=\\=_000.jpg",
+            "img_path": "config\\templates\\67_positive.jpg",
+            "bbox": [
+                1172,
+                392,
+                280,
+                315
+            ]
+        },
+        "negative": {
+            "src_path": "data\\dataset\\images\\=\\=_054.jpg",
+            "img_path": "config\\templates\\67_negative.jpg",
+            "bbox": [
+                1012,
+                261,
+                306,
+                264
+            ]
+        }
+    }
+}
