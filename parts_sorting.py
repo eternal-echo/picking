@@ -8,6 +8,7 @@ from dataclasses import dataclass
 # from move.parts_moving import NozzleMoving, NozzleSetting, PartInfo, Point
 from detect.parts_segment import BackgroundModel, ConnectedComponents
 from detect.parts_tracker import Tracker, Point, Rectangle, TargetInfo, TargetTrack
+from detect.parts_detect import Detect
 
 class PartsSortingSystem:
     def __init__(self, camera: str, config_file, results_dir = 'run'):
@@ -87,6 +88,8 @@ class PartsSortingSystem:
             with open(os.path.join(self.config_dir, 'config.json'), 'w') as f:
                 json.dump(data, f, indent=4)
 
+        # 创建检测器对象并进行检测
+        self.detector = Detect()
         # 背景建模
         self.back_model = BackgroundModel(algo='MOG2', history=500, varThreshold=50, detectShadows=False)
         # 连通域分析
@@ -122,6 +125,11 @@ class PartsSortingSystem:
 
         # 候选目标列表，节点类型为TargetTrack
         self.candidates = list()
+
+        # 离开区域的y坐标
+        self.end_y = int(self.bbox_belt[3] / 15)
+        # 开始区域的y坐标
+        self.start_y = int(self.bbox_belt[3] * (1 - 1 / 3))
 
 
     def run(self):
@@ -194,14 +202,32 @@ class PartsSortingSystem:
                             break
 
                 # 如果不属于已有物体，并且在检测区域的下半部分，才加入候选目标队列
-                if (not matched) and y > belt.shape[0] / 3:
+                if (not matched) and y > self.start_y:
+                    # TODO: 每次添加都要显示log，观察是否有错误添加
                     self.candidates.append(TargetTrack(cur_info))
 
             # 过期检查
             for candidate in self.candidates:
-                if candidate.last.rect.y < 30:
-                    self.__logger.info("目标已经离开传送带，目标信息：{}".format(candidate.last))
+                if candidate.last.rect.y < self.end_y:
                     self.candidates.remove(candidate)
+                    # 识别目标
+                    # 截取的范围
+                    y1 = candidate.last.rect.y
+                    y2 = candidate.last.rect.y + candidate.last.rect.h
+                    x1 = candidate.last.rect.x
+                    x2 = candidate.last.rect.x + candidate.last.rect.w
+                    # src_obj = selected_belt[y1:y2, x1:x2]
+                    # # 将src_obj保存到缓存文件夹
+                    # cv2.imwrite(os.path.join(self.results_dir, "part{}.jpg".format(frame_id)), src_obj)
+
+                    # result = self.detector.detect(src_obj)
+                    result = self.detector.detect(belt)
+                    if result is not None:
+                        self.__logger.info("目标识别结果：{}".format(result))
+
+                    # bin_obj = pre_proc[y1:y2, x1:x2]
+                    # best_match, best_score, best_name = self.matcher.match(src_obj, bin_obj)
+                    # self.__logger.info("目标识别结果：{}({})， 相似度：{}".format(best_match, best_name, best_score))
                     continue
                 # 处理过期物体
                 if frame_id - candidate.last.timestamp > 3:
@@ -240,6 +266,10 @@ class PartsSortingSystem:
                     c_x, c_y = candidate.get_position()
                     v_x, v_y = candidate.get_velocity()
                     cv2.putText(candidates_belt, "({0:.2f}, {1:.2f}), ({2:.2f}, {3:.2f})".format(c_x, c_y, v_x, v_y), (candidate.last.rect.x, candidate.last.rect.y + candidate.last.rect.h), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 2)
+                # 绘制开始线
+                cv2.line(candidates_belt, (0, self.start_y), (candidates_belt.shape[1], self.start_y), (0, 0, 255), 2)
+                # 绘制结束线
+                cv2.line(candidates_belt, (0, self.end_y), (candidates_belt.shape[1], self.end_y), (0, 0, 255), 2)
                 cv2.namedWindow("Candidates Belt", cv2.WINDOW_NORMAL)
                 cv2.imshow("Candidates Belt", candidates_belt)
 
@@ -249,7 +279,7 @@ class PartsSortingSystem:
                 self.track_video.write(candidates_belt)
     
 
-            keyboard = cv2.waitKey(30)
+            keyboard = cv2.waitKey(1)
             if keyboard == 'q' or keyboard == 27:
                 break
         
