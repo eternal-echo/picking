@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from move.nozzle.nozzle_controller import NozzleController, ModbusException
+from move_layer.nozzle_controller import NozzleController, ModbusException
 
 
 class TestNozzleController:

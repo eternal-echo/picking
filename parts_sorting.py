@@ -43,10 +43,13 @@ class PartsSortingSystem:
         # 读取配置文件
         if os.path.exists(os.path.join(self.config_dir, 'config.json')):
             with open(os.path.join(self.config_dir, 'config.json'), 'r') as f:
-                data = json.load(f)
-            self.bbox_belt = (data['belt']['x'], data['belt']['y'], data['belt']['width'], data['belt']['height'])
-            self.size_max = (data['max_part']['width'], data['max_part']['height'])
-            self.size_min = (data['min_part']['width'], data['min_part']['height'])
+                config = json.load(f)
+                tracking_config = config['tracking']
+                areas_config = config['areas']
+            self.bbox_belt = (tracking_config['belt']['x'], tracking_config['belt']['y'], tracking_config['belt']['width'], tracking_config['belt']['height'])
+            self.size_max = (tracking_config['max_part']['width'], tracking_config['max_part']['height'])
+            self.size_min = (tracking_config['min_part']['width'], tracking_config['min_part']['height'])
+        # 未找到配置文件，进行标注，并保存配置文件
         else:
         
             # 框选传送带检测范围
@@ -67,21 +70,24 @@ class PartsSortingSystem:
             self.size_min = (bbox_min[2], bbox_min[3])
 
             # 构建JSON对象
-            data = {
-                'belt': {
-                    'x': int(self.bbox_belt[0]),
-                    'y': int(self.bbox_belt[1]),
-                    'width': int(self.bbox_belt[2]),
-                    'height': int(self.bbox_belt[3])
+            tracking_config = {
+                'tracking': {
+                    'belt': {
+                        'x': int(self.bbox_belt[0]),
+                        'y': int(self.bbox_belt[1]),
+                        'width': int(self.bbox_belt[2]),
+                        'height': int(self.bbox_belt[3])
+                    },
+                    'max_part': {
+                        'width': int(self.size_max[0]),
+                        'height': int(self.size_max[1])
+                    },
+                    'min_part': {
+                        'width': int(self.size_min[0]),
+                        'height': int(self.size_min[1])
+                    }
                 },
-                'max_part': {
-                    'width': int(self.size_max[0]),
-                    'height': int(self.size_max[1])
-                },
-                'min_part': {
-                    'width': int(self.size_min[0]),
-                    'height': int(self.size_min[1])
-                }
+                'areas': {}
             }
 
             # 保存传送带区域和最大最小零件尺寸的json配置文件

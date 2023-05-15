@@ -1,16 +1,34 @@
 {
-    "belt": {
-        "x": 728,
-        "y": 53,
-        "width": 586,
-        "height": 963
+    "tracking": {
+        "belt": {
+            "x": 246,
+            "y": 5,
+            "width": 261,
+            "height": 464
+        },
+        "max_part": {
+            "width": 80,
+            "height": 105
+        },
+        "min_part": {
+            "width": 27,
+            "height": 62
+        }
     },
-    "max_part": {
-        "width": 221,
-        "height": 298
-    },
-    "min_part": {
-        "width": 44,
-        "height": 99
+    "areas": {
+        "parts_map": {
+            "0": [
+                36,
+                35,
+                25
+            ],
+            "1": [
+                62,
+                67
+            ]
+        },
+        "time0": 7,
+        "speed": 11.26,
+        "spacing": 14
     }
 }

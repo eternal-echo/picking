@@ -1,4 +1,4 @@
-from move.nozzle.nozzle_controller import NozzleController
+from move_layer.nozzle_controller import NozzleController
 import logging
 from collections import deque
 import time
