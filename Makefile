@@ -27,3 +27,4 @@ sample-mark:
 sample-sys:
 	python samples\system.py --input test\data\hik-full2.mp4
 # $env:PYTHONPATH += ';'+(pwd)
+# $env:PYTHONPATH += ';'+'.\detection_layer\yolov5\'

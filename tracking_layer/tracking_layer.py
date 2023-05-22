@@ -55,6 +55,7 @@ class TargetTrack:
         self.first = first
         self.last = first
         self.is_expired = False
+        self.is_center = False
         # self.tracker = Tracker(first.center)
 
     def update(self, target: TargetInfo):

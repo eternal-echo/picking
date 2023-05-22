@@ -177,15 +177,15 @@ class TestNozzleController:
 if __name__ == "__main__":
     nozzle = NozzleController(port="COM12", nozzles=20)
     nozzle.connect()
-    print(nozzle.open_all_valves())
-    status = nozzle.get_all_valve_status()
-    print(len(status))
-    print(status)
-    print(nozzle.close_all_valves())
+    # print(nozzle.open_all_valves())
+    # status = nozzle.get_all_valve_status()
+    # print(len(status))
+    # print(status)
+    # print(nozzle.close_all_valves())
 
-    status = nozzle.get_all_valve_status()
-    print(len(status))
-    print(status)
+    # status = nozzle.get_all_valve_status()
+    # print(len(status))
+    # print(status)
 
     print(nozzle.open_valve(3))
     print(nozzle.get_valve_status(2))

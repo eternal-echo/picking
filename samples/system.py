@@ -20,9 +20,9 @@ system = ApplicationLayer(camera_name=args.input, config_dir=args.config_dir, ca
 # nozzle_client.connect = MagicMock(side_effect=lambda: print("connect") or True)
 # # 定义disconnect打桩函数, 打印函数名和输入参数，返回True
 # nozzle_client.disconnect = MagicMock(side_effect=lambda: print("disconnect") or True)
-# # 替换系统中的喷嘴控制器对象
-# system.nozzle_controller = nozzle_client
+# 替换系统中的喷嘴控制器对象
 if system.start() >= 0:
+    # system.picking.nozzle_controller = nozzle_client
     system.run()
 else:
     print("Failed to start system")
