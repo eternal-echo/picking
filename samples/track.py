@@ -50,12 +50,14 @@ class ApplicationLayer:
 
         self.save_idx = 0
 
-    def save_callback(self, belt, tracker, name):
+    def save_callback(self, belt, tracker, bin, name):
         self.save_idx = self.save_idx + 1
         # 创建'track/bg'文件夹
         os.makedirs(os.path.join(self.cache_dir, 'track'), exist_ok=True)
         # 保存背景图像
-        cv2.imwrite(os.path.join(self.cache_dir, 'track', '{}_{}.jpg'.format(name, self.save_idx)), belt)
+        cv2.imwrite(os.path.join(self.cache_dir, 'track', 'src_{}_{}.jpg'.format(name, self.save_idx)), belt)
+        # 保存二值图像
+        cv2.imwrite(os.path.join(self.cache_dir, 'track', 'bin_{}_{}.jpg'.format(name, self.save_idx)), bin)
 
 
     def start(self) -> int:
@@ -63,9 +65,9 @@ class ApplicationLayer:
         if not self.camera.isOpened():
             print("Failed to open camera")
             return -1
-        find_save_lambda = lambda belt, tracker: self.save_callback(belt, tracker, 'first')
-        center_save_lambda = lambda belt, tracker: self.save_callback(belt, tracker, 'center')
-        lost_save_lambda = lambda belt, tracker: self.tracker.candidates.remove(tracker)
+        find_save_lambda = lambda belt, tracker, bin: self.save_callback(belt, tracker, bin, 'first')
+        center_save_lambda = lambda belt, tracker, bin: self.save_callback(belt, tracker, bin, 'center')
+        lost_save_lambda = lambda belt, tracker, bin: self.tracker.candidates.remove(tracker)
         self.tracker.set_callback(find_save_lambda, center_save_lambda, lost_save_lambda)
         return 0
 

@@ -55,7 +55,6 @@ class TrackModule:
         self.start_y = int(self.bbox_belt[3] * (1 - 1 / 4))
         # 候选目标列表，节点类型为TargetTrack
         self.candidates = list()
-        self.save_idx = 0
         self.find_callback = None
         self.center_callback = None
         self.lost_callback = None
@@ -100,10 +99,7 @@ class TrackModule:
                             # [obj] 目标移动到中心区域
                             candidate.is_center = True
                             if self.center_callback:
-                                self.center_callback(belt, candidate)
-                                # 保存bin图像
-                                cv2.imwrite('run/bin/{}.jpg'.format(self.save_idx), bin)
-                                self.save_idx += 1
+                                self.center_callback(belt, candidate, bin)
                         break
             
             # 当没有匹配到帧间目标，并且起始位置大于设置的下边界阈值start_y时，认为是新目标
@@ -112,7 +108,7 @@ class TrackModule:
                 self.candidates.append(tracker)
                 # [obj] 目标出现
                 if self.find_callback:
-                    self.find_callback(belt, tracker)
+                    self.find_callback(belt, tracker, bin)
                 # detect_future = executor.submit(self.__detect_move_task, belt, tracker)
 
         for candidate in self.candidates:
@@ -121,7 +117,7 @@ class TrackModule:
                 # [obj] 目标离开
                 candidate.is_expired = True
                 if self.lost_callback:
-                    self.lost_callback(belt, candidate)
+                    self.lost_callback(belt, candidate, bin)
                 # src_obj = selected_belt[y1:y2, x1:x2]
                 # # 将src_obj保存到缓存文件夹
                 # cv2.imwrite(os.path.join(self.cache_dir, "part{}.jpg".format(frame_id)), src_obj)
@@ -228,7 +224,7 @@ class ApplicationLayer:
         if not self.camera.isOpened():
             self.__logger.error("Failed to open camera")
             return -1
-        submit_lambda = lambda belt, tracker: self.executor.submit(self.__find_task, belt, tracker)
+        submit_lambda = lambda belt, tracker, bin: self.executor.submit(self.__find_task, belt, tracker)
         self.tracker.set_callback(None, submit_lambda, None)
         picking_finish_lambda = lambda tracker: self.tracker.del_candidate(tracker)
         self.picking.set_callback(picking_finish_lambda)
