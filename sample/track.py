@@ -93,34 +93,37 @@ class App:
 
             # [显示]
             selected_belt = belt.copy()
-            for d in trackers:
-                # 绘制跟踪目标
-                cv2.rectangle(selected_belt, (int(d[0]), int(d[1])), (int(d[2]), int(d[3])), (0, 255, 0), 2)
-                # id
-                cv2.putText(selected_belt, str(int(d[4])), (int(d[0]), int(d[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
-                            (0, 255, 0), 2)
-                # # 保存
-                # os.makedirs(os.path.join(self.cache_dir, 'track_layer'), exist_ok=True)
-                # cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_{}_src.jpg'.format(int(frame_id), int(d[4]))),
-                #             selected_belt)
-                # cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_{}_bg.jpg'.format(int(frame_id), int(d[4]))),
-                #             bg_mask)
-                # cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_{}_connected.jpg'.format(int(frame_id), int(d[4]))),
-                #             connected)
+            connected = np.zeros_like(pre_proc)
+            if trackers is not None:
+                for d in trackers:
+                    # 绘制跟踪目标
+                    cv2.rectangle(selected_belt, (int(d[0]), int(d[1])), (int(d[2]), int(d[3])), (0, 255, 0), 2)
+                    # id
+                    cv2.putText(selected_belt, str(int(d[4])), (int(d[0]), int(d[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
+                                (0, 255, 0), 2)
+                
+                # 将连通域labels绘制到图像上
+                for i in range(obj_num):
+                    color = 255 * (i + 1) / (obj_num)
+                    connected[origin_labels == selected_areas_indices[i]] = color
+
+                # [保存]
+                os.makedirs(os.path.join(self.cache_dir, 'track_layer'), exist_ok=True)
+                cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_src.jpg'.format(int(frame_id))),
+                            selected_belt)
+                cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_bg.jpg'.format(int(frame_id))),
+                            bg_mask)
+                cv2.imwrite(os.path.join(self.cache_dir, 'track_layer', '{}_connected.jpg'.format(int(frame_id))),
+                    connected)
+                
             cv2.namedWindow("Candidates Belt", cv2.WINDOW_NORMAL)
             cv2.namedWindow("bg_mask", cv2.WINDOW_NORMAL)
             cv2.namedWindow("pre_proc", cv2.WINDOW_NORMAL)
-            cv2.namedWindow("connected", cv2.WINDOW_NORMAL)
             cv2.imshow("Candidates Belt", selected_belt)
             cv2.imshow("bg_mask", bg_mask)
             cv2.imshow("pre_proc", pre_proc)       
-            connected = np.zeros_like(pre_proc)
-            # 将连通域labels绘制到图像上
-            for i in range(obj_num):
-                color = 255 * i / max((obj_num - 1), 1)
-                connected[origin_labels == selected_areas_indices[i]] = color
+            cv2.namedWindow("connected", cv2.WINDOW_NORMAL)
             cv2.imshow("connected", connected)
-                
 
             keyboard = cv2.waitKey(1)
             if keyboard == 'q' or keyboard == 27:
