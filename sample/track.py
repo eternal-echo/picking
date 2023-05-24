@@ -81,9 +81,8 @@ class App:
             assert obj_num == len(obj_stats) == len(obj_centroids)
 
             # [跟踪模块]
-            if obj_num == 0:
-                trackers = []
-            else:
+            trackers = []
+            if obj_num > 0:
                 detections = np.zeros((obj_num, 5))
                 for i in range(obj_num):
                     detection = [obj_stats[i, 0], obj_stats[i, 1], obj_stats[i, 0] + obj_stats[i, 2],
