@@ -40,7 +40,7 @@ class App:
         # 中央区域的y坐标
         self.center_y = int(self.bbox_belt[3] / 2)
         # 离开区域的y坐标
-        self.end_y = int(self.bbox_belt[3] / 10)
+        self.end_y = int(self.bbox_belt[3] / 6)
 
         # 背景建模
         self.bg_subtractor = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=50, detectShadows=False)
@@ -159,6 +159,13 @@ class App:
             # [显示]
             selected_belt = belt.copy()
             connected = np.zeros_like(pre_proc)
+            # 零件计数
+            cv2.putText(selected_belt, "Part Count: {}".format(self.part_cnt), (10, 50), cv2.FONT_HERSHEY_TRIPLEX, 1.5,
+                        (0, 0, 255), 2)
+            # 绘制虚拟水平线
+            cv2.line(selected_belt, (0, self.start_y), (selected_belt.shape[1], self.start_y), (0, 0, 255), 2)
+            # cv2.line(selected_belt, (0, self.center_y), (selected_belt.shape[1], self.center_y), (0, 0, 255), 2)
+            cv2.line(selected_belt, (0, self.end_y), (selected_belt.shape[1], self.end_y), (0, 0, 255), 2)
             if trackers is not None:
                 for d in trackers:
                     # 绘制跟踪目标
@@ -171,10 +178,6 @@ class App:
                 for i in range(obj_num):
                     color = 255 * i / max((obj_num - 1), 1)
                     connected[origin_labels == selected_areas_indices[i]] = color
-
-                # 零件计数
-                cv2.putText(selected_belt, "Part Count: {}".format(self.part_cnt), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
-                            (0, 255, 0), 2)
 
                 # # [保存]
                 # os.makedirs(os.path.join(self.cache_dir, 'track_layer'), exist_ok=True)
