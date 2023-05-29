@@ -51,11 +51,23 @@ class App:
         self.nozzle_dy = config['spacing']
         self.nozzle_t0 = self.nozzle_y0 / self.speed
         # 开始区域的y坐标
-        self.start_y = int(self.bbox_belt[3] * (1 - 1 / 4))
-        # 中央区域的y坐标
-        self.center_y = int(self.bbox_belt[3] / 2)
+        self.start_y = int(self.bbox_belt[3] * (1 - 1 / 2))
         # 离开区域的y坐标
         self.end_y = int(self.bbox_belt[3] / 10)
+        # 中央区域的y坐标
+        # self.center_y = int(self.bbox_belt[3] / 2)
+        self.center_y = int((self.start_y + self.end_y) / 2)
+
+        print('start_y:', self.start_y)
+        print('center_y:', self.center_y)
+        print('end_y:', self.end_y)
+        print('nozzle_y0:', self.nozzle_y0)
+        print('nozzle_dy:', self.nozzle_dy)
+        print('nozzle_t0:', self.nozzle_t0)
+        print('speed:', self.speed)
+        print('max_area:', self.max_area)
+        print('min_area:', self.min_area)
+
 
         # 背景建模
         self.bg_subtractor = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=50, detectShadows=False)
@@ -134,26 +146,25 @@ class App:
                     detections[i, :] = detection
                 trackers = self.tracker.update(detections)
             # [运动轨迹检测]
-            if trackers is not None:
+            if len(trackers):
                 for d in trackers:
                     xmin, ymin, xmax, ymax, obj_id = d
                     # 属于已有目标
                     if obj_id in self.obj_map.keys():
                         # 零件移动到中央区域 且 之前不在中央区域(ymax/2)
-                        if ymin < self.center_y and self.start_y > self.obj_map[obj_id].bbox[1] > self.center_y and \
-                                self.obj_map[obj_id].frame_id < frame_id:
+                        if ymin < self.center_y and self.start_y > self.obj_map[obj_id].bbox[1] > self.center_y:
                             # [Event]: 目标进入中央区域
-                            print("目标{}进入中央区域".format(obj_id))
+                            print("[{}] 目标{}进入中央区域".format(time.time(), obj_id))
                             detect_future = self.executor.submit(self.__detect_move_task, belt, obj_id)
                         # 零件移动到结束区域 且 之前不在结束区域(0)
-                        if ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y and \
-                                self.obj_map[obj_id].frame_id < frame_id:
+                        if ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y:
                             self.part_cnt += 1
                             # [Event]: 目标进入结束区域
-                            print("目标{}进入结束区域".format(obj_id))
+                            print("[{}] 目标{}进入结束区域".format(time.time(), obj_id))
                         # 更新目标信息
                         self.obj_map[obj_id].update(id=obj_id, bbox=[xmin, ymin, xmax, ymax],
                                                     frame_id=frame_id, timestamp=time.time())
+                        # print("目标{}更新{}".format(obj_id, self.obj_map[obj_id].bbox))
                     # 属于新目标
                     else:
                         # 新目标的起始位置大于设置的下边界阈值start_y时，才认为是零件目标(ymax)
@@ -163,7 +174,7 @@ class App:
                                                   frame_id=frame_id, timestamp=time.time())
                             self.obj_map[obj_id] = new_obj
                             # [Event]: 目标出现
-                            print("目标{}出现".format(obj_id))
+                            print("[{}] 目标{}出现".format(time.time(), obj_id))
                         # else: 认为是光斑
 
             # [显示]
@@ -181,6 +192,11 @@ class App:
                 for i in range(obj_num):
                     color = 255 * (i + 1) / (obj_num)
                     connected[origin_labels == selected_areas_indices[i]] = color
+
+                # 绘制起始、中央和结束线
+                cv2.line(selected_belt, (0, self.start_y), (selected_belt.shape[1], self.start_y), (0, 0, 255), 2)
+                cv2.line(selected_belt, (0, self.center_y), (selected_belt.shape[1], self.center_y), (0, 0, 255), 2)
+                cv2.line(selected_belt, (0, self.end_y), (selected_belt.shape[1], self.end_y), (0, 0, 255), 2)
 
                 # 零件计数
                 cv2.putText(selected_belt, "Part Count: {}".format(self.part_cnt), (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
@@ -241,8 +257,10 @@ class App:
             obj_v = abs(obj_y - obj_y_) / abs(obj_t - obj_t_)
             # 零件的运动时间
             obj_t_move = abs(obj_t - obj_t_)
+            # 更新当前位置
+            obj_yy = abs(self.bbox_belt[3] - (self.obj_map[tracker_id].bbox[1] + self.obj_map[tracker_id].bbox[3]) / 2)
             # 零件从y=0移动到当前位置的时间
-            obj_t_move0 = obj_y / obj_v
+            obj_t_move0 = obj_yy / obj_v
             print("[{}]: y': {}".format(obj_t_, obj_y_))
             print("[{}]: y: {}".format(obj_t, obj_y))
             print("t0: {}, t_move0: {}, t_move: {}, t: {}, v: {}".format(self.nozzle_t0, obj_t_move0, obj_t_move, obj_t, obj_v))
@@ -250,7 +268,7 @@ class App:
             # 定时时间
             delay = self.nozzle_t0 - obj_t_move0
             # 喷嘴运行时间
-            duration = self.nozzle_dy / self.speed / 4
+            duration = self.nozzle_dy / self.speed / 2
             print("[{}] delay: {} duration: {}".format(time.time(), delay, duration))
 
             # 延时
@@ -263,7 +281,8 @@ class App:
 
 
 if __name__ == '__main__':
-    system = App(camera_name=r'data\test\num.mp4', config_dir='config', cache_dir='run')
+    system = App(camera_name=r'data\test\multi_track.mp4', config_dir='config', cache_dir='run')
+    # system = App(camera_name='1', config_dir='config', cache_dir='run')
     if system.start() >= 0:
         system.run()
     else:

@@ -24,6 +24,12 @@ class App:
         self.max_area = self.size_max[0]*self.size_max[1]
         self.min_area = self.size_min[0]*self.size_min[1]
 
+        print('max_area:', self.max_area)
+        print('min_area:', self.min_area)
+        print('bbox_belt:', self.bbox_belt)
+        print('size_max:', self.size_max)
+        print('size_min:', self.size_min)
+        
         # 背景建模
         self.bg_subtractor = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=50, detectShadows=False)
         # SORT多目标跟踪

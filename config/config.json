@@ -1,18 +1,18 @@
 {
     "tracking": {
         "belt": {
-            "x": 728,
-            "y": 2,
-            "width": 676,
-            "height": 1078
+            "x": 226,
+            "y": 4,
+            "width": 283,
+            "height": 476
         },
         "max_part": {
             "width": 160,
             "height": 160
         },
         "min_part": {
-            "width": 48,
-            "height": 55
+            "width": 20,
+            "height": 20
         }
     },
     "areas": {
@@ -58,8 +58,8 @@
                 19
             ]
         },
-        "y0": 85,
-        "speed": 16.6,
+        "nozzle_y0": 60,
+        "speed": 5,
         "spacing": 15
     }
 }

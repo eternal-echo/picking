@@ -36,8 +36,11 @@ class Configurator:
             else:
                 # 移动相关的参数
                 self.parts_map = config['areas']['parts_map']
-                self.nozzle_y0 = config['areas']['y0']
-                self.speed = config['areas']['speed']
+                # y=0 到喷嘴0的距离 60 cm 中央到喷嘴0的距离 53.3cm
+                self.nozzle_y0 = config['areas']['nozzle_y0']
+                # 传送带速度 m/min -> cm/s
+                self.speed = config['areas']['speed'] * 100 / 60
+                # 喷嘴间距 cm
                 self.spacing = config['areas']['spacing']
 
             # 未标注传送带区域
