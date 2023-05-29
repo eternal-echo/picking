@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import os
 import random
+import csv
+import time
 from config.config import Configurator
 from track_layer.sort.sort import Sort
 import detect_layer.YoloDetectAPI.yolo_detectAPI as yolo_detectAPI
@@ -43,6 +45,7 @@ class App:
         return 0
 
     def run(self):
+        times = []
         while True:
             ret, frame = self.camera.read()
             frame_id: int = self.camera.get(cv2.CAP_PROP_POS_FRAMES)
@@ -58,9 +61,14 @@ class App:
             belt = cv2.medianBlur(belt, 5)
 
             # [检测模块]
+            start_time = time.time()
             detect_res, detect_names = self.yolo_detect.detect([belt])
             # print('res', detect_res[0][1])
             # print('name', detect_names)
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print('detect time:', elapsed_time)
+            times.append(elapsed_time)
 
             # [显示]
             selected_belt = belt.copy()
@@ -82,6 +90,9 @@ class App:
 
         self.camera.release()
         cv2.destroyAllWindows()
+        with open(os.path.join(self.cache_dir, 'detect.csv'), 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(times)
 
 if __name__ == '__main__':
     system = App(camera_name=r'data\test\num.mp4', config_dir='config', cache_dir='run')

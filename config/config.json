@@ -7,8 +7,8 @@
             "height": 1078
         },
         "max_part": {
-            "width": 141,
-            "height": 150
+            "width": 160,
+            "height": 160
         },
         "min_part": {
             "width": 48,
@@ -58,7 +58,7 @@
                 19
             ]
         },
-        "time0": 5.1,
+        "y0": 85,
         "speed": 16.6,
         "spacing": 15
     }

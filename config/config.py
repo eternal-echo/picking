@@ -36,7 +36,7 @@ class Configurator:
             else:
                 # 移动相关的参数
                 self.parts_map = config['areas']['parts_map']
-                self.time0 = config['areas']['time0']
+                self.nozzle_y0 = config['areas']['y0']
                 self.speed = config['areas']['speed']
                 self.spacing = config['areas']['spacing']
 
@@ -101,7 +101,7 @@ class Configurator:
             'size_max': self.size_max,
             'size_min': self.size_min,
             'parts_map': self.parts_map,
-            'time0': self.time0,
+            'nozzle_y0': self.nozzle_y0,
             'speed': self.speed,
             'spacing': self.spacing
         }

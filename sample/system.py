@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import os
 import random
+import concurrent.futures
 from config.config import Configurator
 from track_layer.sort.sort import Sort
 import detect_layer.YoloDetectAPI.yolo_detectAPI as yolo_detectAPI
@@ -35,6 +36,12 @@ class App:
         self.size_min = config['size_min']
         self.max_area = self.size_max[0]*self.size_max[1]
         self.min_area = self.size_min[0]*self.size_min[1]
+        # 区域和待分类零件的映射关系
+        self.parts_map = config['parts_map']
+        self.nozzle_y0 = config['y0']
+        self.speed = config['speed']
+        self.spacing = config['spacing']
+        self.nozzle_t0 = self.nozzle_y0 / self.speed
         # 开始区域的y坐标
         self.start_y = int(self.bbox_belt[3] * (1 - 1 / 4))
         # 中央区域的y坐标
@@ -48,6 +55,9 @@ class App:
         self.tracker = Sort(max_age=2, min_hits=3, iou_threshold=0.3)
         # YOLOv5检测
         self.yolo_detect = yolo_detectAPI.DetectAPI(weights='num4.pt', conf_thres=0.5, iou_thres=0.5)
+
+        # 线程池
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)
 
         self.obj_map = {}
 
@@ -81,7 +91,7 @@ class App:
             pre_proc = cv2.morphologyEx(pre_proc, cv2.MORPH_OPEN, kernel)
             # - 连通域分析
             origin_nums, origin_labels, origin_stats, origin_centroids = cv2.connectedComponentsWithStats(pre_proc)
-            # 对连通域按面积从大到小排序
+            # TODO: 对连通域按面积从大到小排序是否必要，可以直接遍历
             areas = origin_stats[:, 4]
             sorted_areas_indices = np.argsort(areas)[::-1]
             selected_areas_indices = []
@@ -122,6 +132,7 @@ class App:
                         if ymin < self.center_y and self.start_y > self.obj_map[obj_id].bbox[1] > self.center_y and self.obj_map[obj_id].frame_id < frame_id:
                             # [Event]: 目标进入中央区域
                             print("目标{}进入中央区域".format(obj_id))
+                            detect_future = self.executor.submit(self.__detect_move_task, belt, obj_id)
                         # 零件移动到结束区域 且 之前不在结束区域(0)
                         if ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y and self.obj_map[obj_id].frame_id < frame_id:
                             self.part_cnt += 1
@@ -169,7 +180,7 @@ class App:
                 
                 # 将连通域labels绘制到图像上
                 for i in range(obj_num):
-                    color = 255 * i / max((obj_num - 1), 1)
+                    color = 255 * (i + 1) / (obj_num)
                     connected[origin_labels == selected_areas_indices[i]] = color
 
                 # 零件计数
@@ -201,6 +212,15 @@ class App:
 
         self.camera.release()
         cv2.destroyAllWindows()
+
+    def __detect_move_task(self, belt, tracker_id):
+        detect_res, detect_names = self.yolo_detect.detect([belt])
+        detect_res = detect_res[0]
+        if detect_res is not None:
+            print("目标{}的检测结果为{}".format(tracker_id, detect_res[1]))
+            detection_name = detect_res[1][0]
+            obj_y = (self.obj_map[tracker_id].bbox[1] + self.obj_map[tracker_id].bbox[3]) / 2
+            
 
 if __name__ == '__main__':
     system = App(camera_name=r'data\test\num.mp4', config_dir='config', cache_dir='run')
