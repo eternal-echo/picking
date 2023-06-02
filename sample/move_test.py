@@ -44,6 +44,8 @@ class App:
         self.size_min = config['size_min']
         self.max_area = self.size_max[0] * self.size_max[1]
         self.min_area = self.size_min[0] * self.size_min[1]
+        # 分拣目标最小间距 1/4
+        self.min_dist = self.bbox_belt[3] / 4
         # 区域和待分类零件的映射关系
         self.parts_map = config['parts_map']
         self.nozzle_y0 = config['nozzle_y0']
@@ -51,12 +53,12 @@ class App:
         self.nozzle_dy = config['spacing']
         self.nozzle_t0 = self.nozzle_y0 / self.speed
         # 开始区域的y坐标
-        self.start_y = int(self.bbox_belt[3] * (1 - 1 / 2))
+        self.start_y = int(self.bbox_belt[3] * (1 - 1 / 4))
         # 离开区域的y坐标
         self.end_y = int(self.bbox_belt[3] / 10)
         # 中央区域的y坐标
-        # self.center_y = int(self.bbox_belt[3] / 2)
-        self.center_y = int((self.start_y + self.end_y) / 2)
+        self.center_y = int(self.bbox_belt[3] / 2)
+        # self.center_y = int((self.start_y + self.end_y) / 2)
 
         print('start_y:', self.start_y)
         print('center_y:', self.center_y)
@@ -147,17 +149,26 @@ class App:
                 trackers = self.tracker.update(detections)
             # [运动轨迹检测]
             if len(trackers):
+                # 需要分拣的目标 list
+                pick_ids = []
+                # 运动到中央区域范围附近的零件目标 list
+                part_trackers = []
                 for d in trackers:
                     xmin, ymin, xmax, ymax, obj_id = d
                     # 属于已有目标
                     if obj_id in self.obj_map.keys():
+                        # 中央区域附近的目标
+                        if self.center_y + self.min_dist > ymin > self.center_y - self.min_dist\
+                                and self.center_y + self.min_dist > self.obj_map[obj_id].bbox[1] > self.center_y - self.min_dist:
+                            part_trackers.append(d)
                         # 零件移动到中央区域 且 之前不在中央区域(ymax/2)
                         if ymin < self.center_y and self.start_y > self.obj_map[obj_id].bbox[1] > self.center_y:
                             # [Event]: 目标进入中央区域
                             print("[{}] 目标{}进入中央区域".format(time.time(), obj_id))
-                            detect_future = self.executor.submit(self.__detect_move_task, belt, obj_id)
+                            # detect_future = self.executor.submit(self.__detect_move_task, belt, obj_id)
+                            pick_ids.append(d[4])
                         # 零件移动到结束区域 且 之前不在结束区域(0)
-                        if ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y:
+                        elif ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y:
                             self.part_cnt += 1
                             # [Event]: 目标进入结束区域
                             print("[{}] 目标{}进入结束区域".format(time.time(), obj_id))
@@ -176,6 +187,52 @@ class App:
                             # [Event]: 目标出现
                             print("[{}] 目标{}出现".format(time.time(), obj_id))
                         # else: 认为是光斑
+
+                # 创建目标分拣和检测的任务
+
+                # 按照目标的y坐标进行排序
+                part_trackers = sorted(part_trackers, key=lambda x: x[1])
+                # 用于存储符合要求的目标
+                filtered_trackers = []
+                # print("part_trackers: ", part_trackers)
+
+                # 遍历目标，检查其与下一个目标的y间距
+                part_num = len(part_trackers)
+                if part_num > 1:
+                    print("part_trackers: ", part_trackers)
+                    for i in range(part_num - 1):
+                        current_obj = part_trackers[i]
+                        next_obj = part_trackers[i + 1]
+                        distance = next_obj[1] - current_obj[1]
+                        print("distance: ", distance)
+                        print("min_dist: ", self.min_dist)
+
+                        # 间距大于阈值，保留目标
+                        if distance > self.min_dist:
+                            filtered_trackers.append(current_obj)
+                            # [Event]: 目标检测和分拣
+                            print("id: ", current_obj[4])
+                            print("IDS: ", pick_ids)
+                            if current_obj[4] in pick_ids:
+                                # 裁剪目标区域 y坐标扩充1/2倍的self.min_dist x坐标不变
+                                obj_img = belt[int(current_obj[1] - self.min_dist / 2):int(current_obj[3] + self.min_dist / 2), :]
+                                detect_future = self.executor.submit(self.__detect_move_task, obj_img, current_obj[4])
+                                cv2.imshow("obj_img", obj_img)
+                        else:
+                            # 不满足要求，删除目标
+                            print("目标{}不满足要求".format(current_obj[4]))
+                elif part_num == 1:
+                    print("part_trackers: ", part_trackers)
+                    current_obj = part_trackers[0]
+                    if current_obj[4] in pick_ids:
+                        # 裁剪目标区域 y坐标扩充1/2倍的self.min_dist x坐标不变
+                        obj_img = belt[int(current_obj[1] - self.min_dist / 2):int(current_obj[3] + self.min_dist / 2), :]
+                        detect_future = self.executor.submit(self.__detect_move_task, obj_img, current_obj[4])
+                        cv2.imshow("obj_img", obj_img)
+                else:
+                    # print("没有目标")
+                    pass
+
 
             # [显示]
             selected_belt = belt.copy()
@@ -281,7 +338,7 @@ class App:
 
 
 if __name__ == '__main__':
-    system = App(camera_name=r'data\test\multi_track.mp4', config_dir='config', cache_dir='run')
+    system = App(camera_name=r'data\test\multi_track1.mp4', config_dir='config', cache_dir='run')
     # system = App(camera_name='1', config_dir='config', cache_dir='run')
     if system.start() >= 0:
         system.run()

@@ -269,7 +269,7 @@ class App:
             print("t0: {}, t_move0: {}, t_move: {}, t: {}, v: {}".format(self.nozzle_t0, obj_t_move0, obj_t_move, obj_t, obj_v))
 
             # 定时时间(偏移-0.3)
-            delay = self.nozzle_t0 + area_id * self.nozzle_dy / (self.speed) - obj_t_move0
+            delay = self.nozzle_t0 + area_id * self.nozzle_dy / (self.speed) - obj_t_move0 + 0.3
             # 喷嘴运行时间
             duration = self.nozzle_dy / self.speed / 2
             print("[{}] delay: {} duration: {}".format(time.time(), delay, duration))

@@ -1,18 +1,18 @@
 {
     "tracking": {
         "belt": {
-            "x": 226,
-            "y": 4,
-            "width": 283,
-            "height": 476
+            "x": 693,
+            "y": 8,
+            "width": 726,
+            "height": 1072
         },
         "max_part": {
-            "width": 160,
-            "height": 160
+            "width": 334,
+            "height": 265
         },
         "min_part": {
-            "width": 20,
-            "height": 20
+            "width": 54,
+            "height": 66
         }
     },
     "areas": {
