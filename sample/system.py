@@ -45,6 +45,7 @@ class App:
         self.size_min = config['size_min']
         self.max_area = self.size_max[0] * self.size_max[1]
         self.min_area = self.size_min[0] * self.size_min[1]
+        self.min_dist = self.bbox_belt[3] / 2
         # 区域和待分类零件的映射关系
         self.parts_map = config['parts_map']
         self.nozzle_y0 = config['nozzle_y0']
@@ -158,6 +159,9 @@ class App:
                         if ymin < self.center_y and self.start_y > self.obj_map[obj_id].bbox[1] > self.center_y:
                             # [Event]: 目标进入中央区域
                             print("[{}] 目标{}进入中央区域".format(time.time(), obj_id))
+                            # obj_img = belt[
+                            #           int(ymin - self.min_dist / 2):int(ymax + self.min_dist / 2),
+                            #           :]
                             detect_future = self.executor.submit(self.__detect_move_task, belt, obj_id)
                         # 零件移动到结束区域 且 之前不在结束区域(0)
                         if ymin < self.end_y and self.center_y > self.obj_map[obj_id].bbox[1] > self.end_y:
@@ -234,7 +238,7 @@ class App:
     def __detect_move_task(self, belt, tracker_id):
         detect_res, detect_names = self.yolo_detect.detect([belt])
         detect_res = detect_res[0]
-        if detect_res:
+        if detect_res[1]:
             print("目标{}的检测结果为{}".format(tracker_id, detect_res[1]))
             detection_name = detect_res[1][0][0]
             # 查找零件的对应分拣区域为喷嘴 i
@@ -269,9 +273,9 @@ class App:
             print("t0: {}, t_move0: {}, t_move: {}, t: {}, v: {}".format(self.nozzle_t0, obj_t_move0, obj_t_move, obj_t, obj_v))
 
             # 定时时间(偏移-0.3)
-            delay = self.nozzle_t0 + area_id * self.nozzle_dy / (self.speed) - obj_t_move0 + 0.3
+            delay = self.nozzle_t0 + area_id * self.nozzle_dy / (self.speed) - obj_t_move0 - 0.2
             # 喷嘴运行时间
-            duration = self.nozzle_dy / self.speed / 2
+            duration = self.nozzle_dy / self.speed / 4
             print("[{}] delay: {} duration: {}".format(time.time(), delay, duration))
 
             # 延时

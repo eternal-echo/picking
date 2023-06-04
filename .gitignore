@@ -27,3 +27,5 @@ venv
 run/
 data/
 config/templates
+
+*.onnx

@@ -58,6 +58,7 @@ class App:
         self.end_y = int(self.bbox_belt[3] / 10)
         # 中央区域的y坐标
         self.center_y = int(self.bbox_belt[3] / 2)
+        self.bg_img = None
         # self.center_y = int((self.start_y + self.end_y) / 2)
 
         print('start_y:', self.start_y)
@@ -76,7 +77,7 @@ class App:
         # SORT多目标跟踪
         self.tracker = Sort(max_age=2, min_hits=3, iou_threshold=0.3)
         # YOLOv5检测
-        self.yolo_detect = yolo_detectAPI.DetectAPI(weights='num4.pt', conf_thres=0.5, iou_thres=0.5)
+        self.yolo_detect = yolo_detectAPI.DetectAPI(weights='num4.pt', conf_thres=0.01, iou_thres=0.5)
 
         # 线程池
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=3)
@@ -94,6 +95,7 @@ class App:
         return 0
 
     def run(self):
+        self.bg_img = self.camera.read()[1]
         while True:
             ret, frame = self.camera.read()
             frame_id: int = self.camera.get(cv2.CAP_PROP_POS_FRAMES)
@@ -199,7 +201,7 @@ class App:
                 # 遍历目标，检查其与下一个目标的y间距
                 part_num = len(part_trackers)
                 if part_num > 1:
-                    print("part_trackers: ", part_trackers)
+                    # print("part_trackers: ", part_trackers)
                     for i in range(part_num - 1):
                         current_obj = part_trackers[i]
                         next_obj = part_trackers[i + 1]
@@ -216,19 +218,32 @@ class App:
                             if current_obj[4] in pick_ids:
                                 # 裁剪目标区域 y坐标扩充1/2倍的self.min_dist x坐标不变
                                 obj_img = belt[int(current_obj[1] - self.min_dist / 2):int(current_obj[3] + self.min_dist / 2), :]
-                                detect_future = self.executor.submit(self.__detect_move_task, obj_img, current_obj[4])
-                                cv2.imshow("obj_img", obj_img)
+                                detect_img = self.bg_img.copy()
+                                pos_y1: int = int(self.bbox_belt[1] + self.center_y - self.min_dist / 2)
+                                pos_y2: int = int(self.bbox_belt[3] + self.center_y + self.min_dist / 2)
+                                pos_x1: int = int(self.bbox_belt[0])
+                                pos_x2: int = int(self.bbox_belt[2])
+                                detect_img[pos_y1:pos_y2, pos_x1:pos_x2] = obj_img
+                                cv2.imshow("detect_img", detect_img)
+                                detect_future = self.executor.submit(self.__detect_move_task, detect_img, current_obj[4])
+                                cv2.imshow("detect_img", detect_img)
                         else:
                             # 不满足要求，删除目标
                             print("目标{}不满足要求".format(current_obj[4]))
                 elif part_num == 1:
-                    print("part_trackers: ", part_trackers)
+                    # print("part_trackers: ", part_trackers)
                     current_obj = part_trackers[0]
                     if current_obj[4] in pick_ids:
                         # 裁剪目标区域 y坐标扩充1/2倍的self.min_dist x坐标不变
                         obj_img = belt[int(current_obj[1] - self.min_dist / 2):int(current_obj[3] + self.min_dist / 2), :]
-                        detect_future = self.executor.submit(self.__detect_move_task, obj_img, current_obj[4])
-                        cv2.imshow("obj_img", obj_img)
+                        detect_img = self.bg_img.copy()
+                        pos_y1: int = int(self.bbox_belt[1] + self.center_y - self.min_dist / 2)
+                        pos_y2: int = int(self.bbox_belt[3] + self.center_y + self.min_dist / 2)
+                        pos_x1: int = int(self.bbox_belt[0])
+                        pos_x2: int = int(self.bbox_belt[2])
+                        detect_img[pos_y1:pos_y2, pos_x1:pos_x2] = obj_img
+                        cv2.imshow("detect_img", detect_img)
+                        detect_future = self.executor.submit(self.__detect_move_task, detect_img, current_obj[4])
                 else:
                     # print("没有目标")
                     pass
